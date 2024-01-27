@@ -1,12 +1,12 @@
 // Global objects
 //The countries where the cars were sold
-const countries = ['Austria', 'UK', 'France', 'Hungary', 'Spain', 'Italy', 'Portugal', 'Netherlands'];
+const brands = ['Audi', 'Mercedes', 'BMW', 'VW'];
 // light green to dark green
 const colors = ['#D0F0C0', '#8F9779', '#3F704D', '#0B6623', '#708238', '#228B22', '#71A92C', '#013220' ];
 
 const parseTime = d3.timeParse("%Y");
 
-let data, scatterplot, barchart, barchartSales, barchartSales2, lineChartSales, lineChartPrices;
+let scatterplot, barchart, barchartSales, barchartSales2, lineChartSales, lineChartPrices;
 let carsData = [];
 
 const dispatcher = d3.dispatch('filterCategories');
@@ -14,23 +14,22 @@ const dispatcher = d3.dispatch('filterCategories');
 /**
  * Load data from CSV file asynchronously and render charts
  */
-d3.csv('data/carsdata.csv')
+d3.csv('data/audi.csv')
   .then(_data => {
-    data = _data
-    data.forEach(d => {
-      const cm = new CarMaker();
+    _data.forEach(d => {
+      const uc = new UsedCar();
 
-      d.sales_year = +d.sales_year;
-      d.sales_number = +d.sales_number;
-      d.sales_price =  +d.sales_price;
+      uc.model = d.model;
+      uc.year = +d.year;
+      uc.price = +d.price;
+      uc.transmission = d.transmission;
+      uc.mileage = +d.mileage;
+      uc.fuelType = d.fuelType;
+      uc.tax = +d.tax;
+      uc.mpg = +d.mpg;
+      uc.engineSize = +d.engineSize;
 
-      cm.car_maker = d.car_maker;
-      cm.country = d.country;
-      cm.sales_year = +d.sales_year;
-      cm.sales_number = +d.sales_number;
-      cm.sales_price = +d.sales_price;
-
-      carsData.push(cm);
+      carsData.push(uc);
     });
     
     // Initialize scales
